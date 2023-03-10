@@ -121,3 +121,4 @@ logDetails1 = (ninja: person) => {
 
 
 
+
