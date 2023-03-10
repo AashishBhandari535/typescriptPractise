@@ -84,3 +84,38 @@ form.addEventListener("submit", (e) => {
     }
     list.render(doc, type.value, 'end');
 });
+// GENERICS
+// const addUID = (obj: object) => {
+//   let uid = Math.floor(Math.random() * 100);
+//   return {...obj,uid}
+// }
+// let docOne = addUID({name:'yoshi', age: 40});
+//throws error as object after modification doesnt know what properties are added into it
+// console.log(docOne.name)
+const addUID = (obj) => {
+    let uid = Math.floor(Math.random() * 100);
+    return { ...obj, uid };
+};
+let docOne = addUID({ num: 12, name: 'Aashish', age: 40 });
+//let docTwo = addUID('hello')
+console.log(docOne);
+// with interface
+var ResourceType;
+(function (ResourceType) {
+    ResourceType[ResourceType["BOOK"] = 0] = "BOOK";
+    ResourceType[ResourceType["AUTHOR"] = 1] = "AUTHOR";
+    ResourceType[ResourceType["FILM"] = 2] = "FILM";
+    ResourceType[ResourceType["DIRECTOR"] = 3] = "DIRECTOR";
+    ResourceType[ResourceType["PERSON"] = 4] = "PERSON";
+})(ResourceType || (ResourceType = {}));
+const docThree = {
+    uid: 1,
+    resourceName: ResourceType.AUTHOR,
+    data: "shaun",
+};
+const docFour = {
+    uid: 2,
+    resourceName: ResourceType.DIRECTOR,
+    data: ['aashish', 'bhandari']
+};
+console.log(docThree, docFour);

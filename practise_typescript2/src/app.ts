@@ -101,13 +101,67 @@ const list = new ListTemplate(ul);
 form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
 
+  let values: [string,string,number]
+  values = [tofrom.value, details.value, amount.valueAsNumber]
+
   let doc: HasFormatter;
   if(type.value === 'invoice'){
-    doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+    doc = new Invoice(...values);
   } else {
     doc = new Payment(tofrom.value, details.value, amount.valueAsNumber)
   }
 
   list.render(doc,type.value,'end')
 });
+
+// GENERICS
+
+// const addUID = (obj: object) => {
+//   let uid = Math.floor(Math.random() * 100);
+//   return {...obj,uid}
+// }
+
+// let docOne = addUID({name:'yoshi', age: 40});
+
+//throws error as object after modification doesnt know what properties are added into it
+// console.log(docOne.name)
+
+const addUID = <T extends {name: string}>(obj: T) => {
+  let uid = Math.floor(Math.random() * 100);
+  return {...obj,uid}; 
+}
+
+let docOne = addUID({num: 12,name:'Aashish', age: 40});
+//let docTwo = addUID('hello')
+
+console.log(docOne)
+
+// with interface
+enum ResourceType {BOOK,AUTHOR,FILM,DIRECTOR,PERSON}
+interface Resource<T> {
+  uid: number;
+  resourceName: ResourceType;
+  data: T;
+}
+
+const docThree: Resource<string> = {
+  uid: 1,
+  resourceName: ResourceType.AUTHOR,
+  data: "shaun",
+};
+
+const docFour: Resource<string[]> ={
+  uid: 2,
+  resourceName: ResourceType.DIRECTOR,
+  data:['aashish','bhandari']
+}
+console.log(docThree, docFour);
+
+// tuples 
+
+let tup: [string, number, boolean] = ['ryu',25,true]//ok
+// let tup: [string, number, boolean] = [25,'ryu',true] wrong as order in tuple must be maintained once defined
+tup[0] = 'ken';
+tup[1] = 30;
+
 
